@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Wallpaper Flutter',
+      title: 'WallpaperHub',
       // debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.white,
