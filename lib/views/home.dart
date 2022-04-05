@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tugas_wallpaper/data/data.dart';
 import 'package:tugas_wallpaper/models/categories_model.dart';
 import 'package:tugas_wallpaper/models/wallpaper_model.dart';
+import 'package:tugas_wallpaper/views/search.dart';
 import 'package:tugas_wallpaper/widgets/widgets.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,6 +16,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<CategoriesModel> categories = [];
   List<WallpaperModel> wallpapers = [];
+
+  TextEditingController searchController = new TextEditingController();
 
   getTrendingWallpaper() async {
     var response = await http.get(
@@ -49,52 +52,61 @@ class _HomeState extends State<Home> {
         title: brandName(),
         elevation: 0.0,
       ),
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                color: Color(0xfff5f8fd),
-                borderRadius: BorderRadius.circular(30),
-              ),
-              margin: EdgeInsets.symmetric(horizontal: 24),
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                          hintText: "Search Wallpaper",
-                          border: InputBorder.none),
+      body: SingleChildScrollView(
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  color: Color(0xfff5f8fd),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                margin: EdgeInsets.symmetric(horizontal: 24),
+                padding: EdgeInsets.symmetric(horizontal: 24),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: TextField(
+                        controller: searchController,
+                        decoration: InputDecoration(
+                            hintText: "Search Wallpaper",
+                            border: InputBorder.none),
+                      ),
                     ),
-                  ),
-                  Icon(Icons.search),
-                ],
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Search(
+                                        searchQuery: searchController.text,
+                                      )));
+                        },
+                        child: Container(child: Icon(Icons.search))),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Container(
-              height: 80,
-              child: ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
-                  itemCount: categories.length,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    // wallpapers[index].src.portrait
-                    return CategoriesTile(
-                      title.categories[index].categorieName,
-                      imgUrls.categories[index].imgUrl,
-                    );
-                  }),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            wallpapersList(wallpapers: wallpapers, context: context)
-          ],
+              SizedBox(
+                height: 16,
+              ),
+              Container(
+                height: 80,
+                child: ListView.builder(
+                    padding: EdgeInsets.symmetric(horizontal: 24),
+                    itemCount: categories.length,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      // wallpapers[index].src.portrait
+                      return CategoriesTile(
+                        title.categories[index].categorieName,
+                        imgUrls.categories[index].imgUrl,
+                      );
+                    }),
+              ),
+              wallpapersList(wallpapers: wallpapers, context: context)
+            ],
+          ),
         ),
       ),
     );
@@ -102,7 +114,7 @@ class _HomeState extends State<Home> {
 }
 
 class CategoriesTile extends StatelessWidget {
-  final String imgUrls, title;
+  final String title, imgUrls;
 
   CategoriesTile(@required this.title, @required this.imgUrls);
 
