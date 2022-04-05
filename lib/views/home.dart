@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tugas_wallpaper/data/data.dart';
 import 'package:tugas_wallpaper/models/categories_model.dart';
 import 'package:tugas_wallpaper/models/wallpaper_model.dart';
+import 'package:tugas_wallpaper/views/categorie.dart';
 import 'package:tugas_wallpaper/views/search.dart';
 import 'package:tugas_wallpaper/widgets/widgets.dart';
 import 'package:http/http.dart' as http;
@@ -120,35 +121,45 @@ class CategoriesTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(right: 4),
-      child: Stack(
-        children: <Widget>[
-          ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                imgUrls,
-                height: 50,
-                width: 100,
-                fit: BoxFit.cover,
-              )),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.black26,
-              borderRadius: BorderRadius.circular(8),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Categorie(
+                      categorieName: title.toLowerCase(),
+                    )));
+      },
+      child: Container(
+        margin: EdgeInsets.only(right: 4),
+        child: Stack(
+          children: <Widget>[
+            ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  imgUrls,
+                  height: 50,
+                  width: 100,
+                  fit: BoxFit.cover,
+                )),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.black26,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              height: 50,
+              width: 100,
+              alignment: Alignment.center,
+              child: Text(
+                title,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16),
+              ),
             ),
-            height: 50,
-            width: 100,
-            alignment: Alignment.center,
-            child: Text(
-              title,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
