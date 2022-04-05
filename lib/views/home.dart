@@ -16,6 +16,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  ScrollController _scrollController = new ScrollController();
   List<CategoriesModel> categories = [];
   List<WallpaperModel> wallpapers = [];
 
@@ -24,19 +25,19 @@ class _HomeState extends State<Home> {
   getTrendingWallpaper() async {
     var response = await http.get(
         Uri.parse("https://api.pexels.com/v1/curated?per_page=15&page=1"),
-        headers: {"Authorization": apiKEY});
+        headers: {"Authorization": apiKEY}).then((value) {
+      // print(response.body.toString());
 
-    // print(response.body.toString());
+      Map<String, dynamic> jsonData = jsonDecode(value.body);
+      jsonData["photos"].forEach((element) {
+        // print(element);
+        WallpaperModel wallpaperModel = new WallpaperModel();
+        wallpaperModel = WallpaperModel.fromMap(element);
+        wallpapers.add(wallpaperModel);
+      });
 
-    Map<String, dynamic> jsonData = jsonDecode(response.body);
-    jsonData["photos"].forEach((element) {
-      // print(element);
-      WallpaperModel wallpaperModel = new WallpaperModel();
-      wallpaperModel = WallpaperModel.fromMap(element);
-      wallpapers.add(wallpaperModel);
+      setState(() {});
     });
-
-    setState(() {});
   }
 
   @override
@@ -94,17 +95,18 @@ class _HomeState extends State<Home> {
               Container(
                 height: 80,
                 child: ListView.builder(
-                    padding: EdgeInsets.symmetric(horizontal: 24),
                     itemCount: categories.length,
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      // wallpapers[index].src.portrait
                       return CategoriesTile(
-                        title.categories[index].categorieName,
-                        imgUrls.categories[index].imgUrls,
+                        title: categories[index].categorieName.toString(),
+                        imgUrl: categories[index].imgUrl.toString(),
                       );
                     }),
+              ),
+              SizedBox(
+                height: 16,
               ),
               wallpapersList(wallpapers: wallpapers, context: context)
             ],
@@ -116,9 +118,9 @@ class _HomeState extends State<Home> {
 }
 
 class CategoriesTile extends StatelessWidget {
-  final String title, imgUrls;
+  final String title, imgUrl;
 
-  CategoriesTile(@required this.title, @required this.imgUrls);
+  CategoriesTile({required this.imgUrl, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +140,7 @@ class CategoriesTile extends StatelessWidget {
             ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.network(
-                  imgUrls,
+                  imgUrl,
                   height: 50,
                   width: 100,
                   fit: BoxFit.cover,

@@ -37,7 +37,7 @@ class _ImageViewState extends State<ImageView> {
               children: <Widget>[
                 GestureDetector(
                   onTap: () {
-                    // _save untuk setel wallpaper;
+                    // _save();
                     Navigator.pop(context);
                   },
                   child: Stack(
@@ -98,4 +98,25 @@ class _ImageViewState extends State<ImageView> {
       ),
     );
   }
+  // _save() async {
+  //   await _askPermission();
+  //   var response = await Dio().get(widget.imgPath,
+  //       options: Options(responseType: ResponseType.bytes));
+  //   final result =
+  //       await ImageGallerySaver.saveImage(Uint8List.fromList(response.data));
+  //   print(result);
+  //   Navigator.pop(context);
+  // }
+
+  // _askPermission() async {
+  //   if (Platform.isIOS) {
+  //     /*Map<PermissionGroup, PermissionStatus> permissions =
+  //         */await PermissionHandler()
+  //             .requestPermissions([PermissionGroup.photos]);
+  //   } else {
+  //    /* PermissionStatus permission = */await PermissionHandler()
+  //         .checkPermissionStatus(PermissionGroup.storage);
+  //   }
+  // }
+// }
 }

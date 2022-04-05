@@ -7,7 +7,7 @@ import 'package:tugas_wallpaper/models/wallpaper_model.dart';
 import 'package:tugas_wallpaper/widgets/widgets.dart';
 
 class Categorie extends StatefulWidget {
-  final String categorieName;
+  final String? categorieName;
   Categorie({required this.categorieName});
 
   @override
@@ -20,19 +20,19 @@ class _CategorieState extends State<Categorie> {
     var response = await http.get(
         Uri.parse(
             "https://api.pexels.com/v1/search?query=$query&per_page=15&page=1"),
-        headers: {"Authorization": apiKEY});
+        headers: {"Authorization": apiKEY}).then((value) {
+      // print(response.body.toString());
 
-    // print(response.body.toString());
+      Map<String, dynamic> jsonData = jsonDecode(value.body);
+      jsonData["photos"].forEach((element) {
+        // print(element);
+        WallpaperModel wallpaperModel = new WallpaperModel();
+        wallpaperModel = WallpaperModel.fromMap(element);
+        wallpapers.add(wallpaperModel);
+      });
 
-    Map<String, dynamic> jsonData = jsonDecode(response.body);
-    jsonData["photos"].forEach((element) {
-      // print(element);
-      WallpaperModel wallpaperModel = new WallpaperModel();
-      wallpaperModel = WallpaperModel.fromMap(element);
-      wallpapers.add(wallpaperModel);
+      setState(() {});
     });
-
-    setState(() {});
   }
 
   @override

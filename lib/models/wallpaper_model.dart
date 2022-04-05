@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class WallpaperModel {
   String? photographer;
   String? photographer_url;
