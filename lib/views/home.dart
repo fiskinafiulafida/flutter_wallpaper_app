@@ -5,6 +5,7 @@ import 'package:tugas_wallpaper/data/data.dart';
 import 'package:tugas_wallpaper/models/categories_model.dart';
 import 'package:tugas_wallpaper/models/wallpaper_model.dart';
 import 'package:tugas_wallpaper/views/categorie.dart';
+import 'package:tugas_wallpaper/views/image_view.dart';
 import 'package:tugas_wallpaper/views/search.dart';
 import 'package:tugas_wallpaper/widgets/widgets.dart';
 import 'package:http/http.dart' as http;
@@ -101,7 +102,7 @@ class _HomeState extends State<Home> {
                       // wallpapers[index].src.portrait
                       return CategoriesTile(
                         title.categories[index].categorieName,
-                        imgUrls.categories[index].imgUrl,
+                        imgUrls.categories[index].imgUrls,
                       );
                     }),
               ),
