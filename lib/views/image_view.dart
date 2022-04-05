@@ -44,14 +44,17 @@ class _ImageViewState extends State<ImageView> {
                     children: [
                       Container(
                         height: 50,
+                        decoration: BoxDecoration(
+                          color: Color(0xff1c1B1B).withOpacity(0.8),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
                         width: MediaQuery.of(context).size.width / 2,
-                        color: Color(0xff1c1B1B).withOpacity(0.8),
+                        // color: Color(0xff1c1B1B).withOpacity(0.8),
                       ),
                       Container(
                         height: 50,
                         width: MediaQuery.of(context).size.width / 2,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        padding: EdgeInsets.symmetric(horizontal: 8),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.white70, width: 1),
                           borderRadius: BorderRadius.circular(30),
@@ -84,9 +87,14 @@ class _ImageViewState extends State<ImageView> {
                 SizedBox(
                   height: 16,
                 ),
-                Text(
-                  "Cancel",
-                  style: TextStyle(color: Colors.white),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "Cancel",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
                 SizedBox(
                   height: 50,
