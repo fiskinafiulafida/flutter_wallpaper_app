@@ -85,11 +85,15 @@ class _HomeState extends State<Home> {
                   itemBuilder: (context, index) {
                     // wallpapers[index].src.portrait
                     return CategoriesTile(
-                      title: categories[index].categoriesName,
-                      imgUrl: categories[index].imgUrl,
+                      title.categories[index].categorieName,
+                      imgUrls.categories[index].imgUrl,
                     );
                   }),
-            )
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            wallpapersList(wallpapers: wallpapers, context: context)
           ],
         ),
       ),
@@ -117,7 +121,10 @@ class CategoriesTile extends StatelessWidget {
                 fit: BoxFit.cover,
               )),
           Container(
-            color: Colors.black26,
+            decoration: BoxDecoration(
+              color: Colors.black26,
+              borderRadius: BorderRadius.circular(8),
+            ),
             height: 50,
             width: 100,
             alignment: Alignment.center,
